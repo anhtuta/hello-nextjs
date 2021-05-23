@@ -33,11 +33,11 @@ export async function getStaticProps(context) {
   const res = await fetch(
     "https://ducdongyyen.com/tlvc-api/api/order/read.php?page=0&size=10"
   );
-  const orders = await res.json();
-  console.log("[getStaticProps] orders: ", orders.message);
+  const json = await res.json();
+  console.log("[getStaticProps] json: ", json.message);
   console.log("curr dir: ", process.cwd());
 
-  if (!orders || orders.message !== "SUCCESS") {
+  if (!json || json.message !== "SUCCESS") {
     return {
       redirect: {
         destination: "/",
@@ -50,7 +50,7 @@ export async function getStaticProps(context) {
   // will receive `orders` as a prop at build time
   return {
     props: {
-      orders: orders.data.list,
+      orders: json.data.list,
       currTime: new Date().toLocaleString(),
     },
     // Next.js will attempt to re-generate the page:
